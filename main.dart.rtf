@@ -1,0 +1,256 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 import 'package:flutter/material.dart';\
+import 'package:provider/provider.dart';\
+\
+void main() \{\
+  runApp(\
+    ChangeNotifierProvider<ProfileData>(\
+      create: (BuildContext context) => ProfileData(),\
+      builder: (BuildContext context, Widget? child) => const MyApp(),\
+    ),\
+  );\
+\}\
+\
+class ProfileData extends ChangeNotifier \{\
+  final String _name;\
+  final String _designation;\
+  final String _university;\
+  final String _avatarUrl;\
+  final List<String> _skills;\
+  final String _about;\
+  final String _contactEmail;\
+  final String _contactPhone;\
+  final String _contactLinkedIn;\
+\
+  ProfileData()\
+      : _name = 'Harshit Singh',\
+        _designation = 'Software Engineer',\
+        _university = 'GLA University',\
+        _avatarUrl =\
+            'https://www.gstatic.com/flutter-onestack-prototype/genui/example_1.jpg',\
+        _skills = const <String>[\
+          'UI/UX Design',\
+          'User Research',\
+          'Prototyping',\
+          'Wireframing',\
+          'Design Systems',\
+          'Interaction Design',\
+          'Flutter Development',\
+          'Mobile App Development',\
+        ],\
+        _about =\
+            'Passionate software engineer with a focus on Flutter development. I enjoy building user-friendly and performant mobile applications. Always learning new technologies and improving my craft.',\
+        _contactEmail = 'harshit.singh@example.com',\
+        _contactPhone = '(555) 123-4567',\
+        _contactLinkedIn = 'linkedin.com/in/harshitsingh';\
+\
+  String get name => _name;\
+  String get designation => _designation;\
+  String get university => _university;\
+  String get avatarUrl => _avatarUrl;\
+  List<String> get skills => _skills;\
+  String get about => _about;\
+  String get contactEmail => _contactEmail;\
+  String get contactPhone => _contactPhone;\
+  String get contactLinkedIn => _contactLinkedIn;\
+\}\
+\
+class MyApp extends StatelessWidget \{\
+  const MyApp(\{super.key\});\
+\
+  @override\
+  Widget build(BuildContext context) \{\
+    return MaterialApp(\
+      title: 'Profile',\
+      debugShowCheckedModeBanner: false,\
+      home: const ProfileScreen(),\
+    );\
+  \}\
+\}\
+\
+class ProfileScreen extends StatelessWidget \{\
+  const ProfileScreen(\{super.key\});\
+\
+  @override\
+  Widget build(BuildContext context) \{\
+    final ProfileData profileData = Provider.of<ProfileData>(context);\
+\
+    return Scaffold(\
+      backgroundColor: const Color(0xFFF6F8FB),\
+      body: SafeArea(\
+        child: SingleChildScrollView(\
+          child: Column(\
+            children: <Widget>[\
+              const SizedBox(height: 16),\
+              // Top bar\
+              const Padding(\
+                padding: EdgeInsets.symmetric(horizontal: 24),\
+                child: Row(\
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,\
+                  children: <Widget>[\
+                    Text(\
+                      'Profile',\
+                      style:\
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),\
+                    ),\
+                    Icon(Icons.settings),\
+                  ],\
+                ),\
+              ),\
+              const SizedBox(height: 24),\
+              // Avatar and name\
+              CircleAvatar(\
+                radius: 50,\
+                backgroundImage: NetworkImage(profileData.avatarUrl),\
+              ),\
+              const SizedBox(height: 16),\
+              Text(\
+                profileData.name,\
+                style:\
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),\
+              ),\
+              Text(\
+                '$\{profileData.designation\}\\n$\{profileData.university\}',\
+                textAlign: TextAlign.center,\
+                style: const TextStyle(fontSize: 14, color: Colors.blueGrey),\
+              ),\
+              const SizedBox(height: 24),\
+\
+              // Skills section\
+              Padding(\
+                padding: const EdgeInsets.symmetric(horizontal: 24),\
+                child: Column(\
+                  crossAxisAlignment: CrossAxisAlignment.start,\
+                  children: <Widget>[\
+                    const Text(\
+                      'Skills',\
+                      style: TextStyle(fontWeight: FontWeight.bold),\
+                    ),\
+                    const SizedBox(height: 12),\
+                    Wrap(\
+                      spacing: 8,\
+                      runSpacing: 8,\
+                      children: profileData.skills\
+                          .map<Widget>((String skill) => SkillChip(label: skill))\
+                          .toList(),\
+                    ),\
+                  ],\
+                ),\
+              ),\
+\
+              const SizedBox(height: 24),\
+\
+              // About section\
+              Padding(\
+                padding: const EdgeInsets.symmetric(horizontal: 24),\
+                child: Column(\
+                  crossAxisAlignment: CrossAxisAlignment.start,\
+                  children: <Widget>[\
+                    const Text(\
+                      'About',\
+                      style: TextStyle(fontWeight: FontWeight.bold),\
+                    ),\
+                    const SizedBox(height: 8),\
+                    Text(\
+                      profileData.about,\
+                      style: const TextStyle(height: 1.4),\
+                    ),\
+                  ],\
+                ),\
+              ),\
+\
+              const SizedBox(height: 24),\
+\
+              // Contact section\
+              Padding(\
+                padding: const EdgeInsets.symmetric(horizontal: 24),\
+                child: Column(\
+                  crossAxisAlignment: CrossAxisAlignment.start,\
+                  children: <Widget>[\
+                    const Text(\
+                      'Contact',\
+                      style: TextStyle(fontWeight: FontWeight.bold),\
+                    ),\
+                    const SizedBox(height: 12),\
+                    ContactRow(\
+                      icon: Icons.email,\
+                      text: profileData.contactEmail,\
+                    ),\
+                    ContactRow(\
+                      icon: Icons.phone,\
+                      text: profileData.contactPhone,\
+                    ),\
+                    ContactRow(\
+                      icon: Icons.link,\
+                      text: profileData.contactLinkedIn,\
+                    ),\
+                  ],\
+                ),\
+              ),\
+              const SizedBox(height: 24), // Added some bottom spacing\
+            ],\
+          ),\
+        ),\
+      ),\
+      bottomNavigationBar: BottomNavigationBar(\
+        currentIndex: 3,\
+        selectedItemColor: Colors.black,\
+        unselectedItemColor: Colors.grey,\
+        items: const <BottomNavigationBarItem>[\
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),\
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),\
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),\
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),\
+        ],\
+      ),\
+    );\
+  \}\
+\}\
+\
+class SkillChip extends StatelessWidget \{\
+  final String label;\
+\
+  const SkillChip(\{super.key, required this.label\});\
+\
+  @override\
+  Widget build(BuildContext context) \{\
+    return Chip(\
+      label: Text(label),\
+      backgroundColor: const Color(0xFFE8EDF4),\
+      labelStyle: const TextStyle(fontSize: 13),\
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),\
+    );\
+  \}\
+\}\
+\
+class ContactRow extends StatelessWidget \{\
+  final IconData icon;\
+  final String text;\
+\
+  const ContactRow(\{super.key, required this.icon, required this.text\});\
+\
+  @override\
+  Widget build(BuildContext context) \{\
+    return Padding(\
+      padding: const EdgeInsets.only(bottom: 12),\
+      child: Row(\
+        children: <Widget>[\
+          Icon(icon, size: 20),\
+          const SizedBox(width: 12),\
+          Expanded(\
+            child: Text(\
+              text,\
+              style: const TextStyle(fontSize: 14),\
+            ),\
+          ),\
+        ],\
+      ),\
+    );\
+  \}\
+\}}
